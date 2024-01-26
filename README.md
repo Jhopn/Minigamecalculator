@@ -1,1 +1,1 @@
-Utilizando React Native para a criação de um mini jogo de cálculo
+Using React Native to create a mini design game (made for mobile using expo)

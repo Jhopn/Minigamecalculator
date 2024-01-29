@@ -13,11 +13,11 @@ export function ModalDificuldade({handleClose, modalOff}){
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.botaoIndiv} onPress={() => handleClose(60)}>
-                    <Text>MEDIO</Text>
+                    <Text>MÉDIO</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.botaoIndiv} onPress={() => handleClose(10)}>
-                    <Text>DIFICIL</Text>
+                    <Text>DIFÍCIL</Text>
                     </TouchableOpacity>  
 
                 </View>

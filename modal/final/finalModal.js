@@ -1,15 +1,14 @@
-import {View, Text, StyleSheet, TouchableOpacity, TextInput, Alert} from 'react-native'
-// import useStorage from '../../hook/useStorage'
+import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
 
-export function FinalModal({modalFinalOff, acertosRank}){
-    let texto
+export function FinalModal({modalFinalOff, acertosRank, nivelDificuldade}){
+        const [texto, setTexto] = useState('');
 
-    // const {saveItem} = useStorage();
-
-    const handleChange = (event) => {
-        texto = event.target.value
-    };
+      
+        const handleChangeText = (novoTexto) => {
+          setTexto(novoTexto);
+        };
 
     return(
         <View style={styles.container}>
@@ -23,14 +22,23 @@ export function FinalModal({modalFinalOff, acertosRank}){
                    style={styles.input}
                    placeholder='Digite o seu Nome...'
                    value={texto}
-                   onChange={handleChange}
+                   onChangeText={handleChangeText}
                    />
 
-                    <TouchableOpacity onPress={ async  () => {
-                        let salva = texto + ' - ' + acertosRank
+                    <TouchableOpacity onPress={ async () => {
+                        if( texto !== ''){
+                            alert("Digite um nome!!");
+                        }
+                        let salva = texto + ' - ' + acertosRank + ' - ' + nivelDificuldade
                         salva = salva.toString()
                         console.log(salva)
-                        await AsyncStorage.setItem('@ACERTS', salva);
+
+                        const keys = await AsyncStorage.getAllKeys(); // Obtem as chaves
+                        const quantidadeItens = keys.length; // Pega a quantidade
+                        let KEY = quantidadeItens + 1 // A chave soma com a quantidade existente para não repetir
+                        KEY = KEY.toString()
+
+                        await AsyncStorage.setItem(KEY, salva);
                         modalFinalOff(false)
                         alert("Salvo com sucesso!")
                     }}>
@@ -67,6 +75,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#0DE000',
         textAlign: 'center',
         borderRadius: 10,
-    }
+    },
 
 })

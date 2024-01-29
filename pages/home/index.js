@@ -1,10 +1,8 @@
-// import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-// import Sound from 'react-native-sound';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, Alert } from 'react-native';
 import {ModalDificuldade} from '../../modal/modal';
 import {FinalModal} from '../../modal/final/finalModal';
-// import { TabRouter } from '@react-navigation/native';
+
 
 let number = '';
 let resultadoOperacao = 0
@@ -17,6 +15,8 @@ export function Home() {
   const [sizeModal,setModal] = useState(true)
   const [sizeTempo,setTempo] = useState('')
   const [sizeModalFinal,setModalFinal] = useState(false)
+  const [sizeDificuldade,setDificuldade] = useState(null)
+
   let tempoPartida = {sizeTempo}
   const isFloat = (numero) => Number(numero) === numero && numero % 1 !== 0;
 
@@ -225,6 +225,16 @@ export function Home() {
           setTempo(value)
           tempoPartida = value
           setModal(false)
+          if( tempoPartida === 180){
+              setDificuldade("FÁCIL")
+          } else if( tempoPartida === 60 ) {
+              setDificuldade("MÉDIO")
+          } else{
+            setDificuldade("DIFÍCIL")
+          }
+          acertosQuant = 0
+          setAcertos(acertosQuant)
+          sorteaOperacao()
           decorreTempo(tempoPartida)
         } 
           } modalOff={ () => setModal(false)
@@ -232,7 +242,7 @@ export function Home() {
       </Modal>
 
       <Modal visible={sizeModalFinal} transparent={true} animationType='fade' >
-        <FinalModal modalFinalOff={ () => setModalFinal(false)} acertosRank={acertos} />
+        <FinalModal modalFinalOff={ () => setModalFinal(false)} acertosRank={acertos} nivelDificuldade={sizeDificuldade} />
       </Modal>
 
     </View>
@@ -269,7 +279,7 @@ const styles = StyleSheet.create({
   acertado:{
     marginTop: 10,
     fontSize: 18,
-    marginHorizontal: 70,
+    marginHorizontal: 55,
     color: '#0DE000',
     textShadowColor: 100,
     backgroundColor: 'white',

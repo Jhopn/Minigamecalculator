@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
 import {ModalDificuldade} from '../../modal/modal';
 import {FinalModal} from '../../modal/final/finalModal';
 
@@ -7,13 +7,14 @@ import {FinalModal} from '../../modal/final/finalModal';
 let number = '';
 let resultadoOperacao = 0
 let acertosQuant = 0
+let intervaloID
 
 export function Home() {
   const [size, setSize] = useState('')
   const [acertos, setAcertos] = useState(acertosQuant)
   const [sizeSorteado, setSortea] = useState(0)
   const [sizeModal,setModal] = useState(true)
-  const [sizeTempo,setTempo] = useState('')
+  const [sizeTempo,setTempo] = useState(null)
   const [sizeModalFinal,setModalFinal] = useState(false)
   const [sizeDificuldade,setDificuldade] = useState(null)
 
@@ -59,7 +60,7 @@ export function Home() {
     if(valor2 === 0  && operacaoSorteada === '/'){
       sorteaOperacao()
     }
-    operacaoComValores = valor1 + operacaoSorteada + valor2
+    operacaoComValores = valor1 + ' ' + operacaoSorteada + ' '  + valor2
     setSortea(operacaoComValores)
     console.log(typeof resultadoOperacao)
     console.log(resultadoOperacao)
@@ -94,22 +95,24 @@ export function Home() {
   }
 
   function decorreTempo(tempoPartida) {
-    const intervaloID = setInterval(() => {
+      intervaloID = setInterval(() => {
       tempoPartida--;
-  
-      if (tempoPartida < 0) {
+      if (tempoPartida < 0 ) {
         setModalFinal(true);
         clearInterval(intervaloID);
-      } else {
+      }
+      else {
         setTempo(tempoPartida);
       }
     }, 1000);
   }
+  
 
 
 
   return (
     <View style={styles.container}>
+
       <Text style={styles.titulo}>Acerte o máximo de operações no tempo exibido:</Text>
       <Text style={styles.tempo}>🕗{sizeTempo} segundos</Text>
       <View style={styles.juncao}>
@@ -219,11 +222,13 @@ export function Home() {
               style={styles.botoes}
               />
       </TouchableOpacity>
+      
 
       <Modal visible={sizeModal} transparent={true} animationType='fade'>
         <ModalDificuldade handleClose={ (value) => {
-          setTempo(value)
+          clearInterval(intervaloID);
           tempoPartida = value
+          setTempo(value);
           setModal(false)
           if( tempoPartida === 180){
               setDificuldade("FÁCIL")
@@ -235,7 +240,7 @@ export function Home() {
           acertosQuant = 0
           setAcertos(acertosQuant)
           sorteaOperacao()
-          decorreTempo(tempoPartida)
+          decorreTempo(tempoPartida);
         } 
           } modalOff={ () => setModal(false)
           } />
@@ -260,7 +265,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row', 
-    flexWrap:'wrap'
+    flexWrap:'wrap',
+    
   },
   botoes:{
     width: 55,
@@ -290,15 +296,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   digitado: {
+    color: 'white',
     fontSize: 20,
-    marginHorizontal: 2,
+    marginHorizontal: 14,
     marginBottom: 30,
-    backgroundColor: 'gray',
+    backgroundColor: '#0D1413',
     borderRadius: 5,
     padding: 10,
     height: 40,
-    width: 145,
+    width: 120,
     textAlign: 'center',
+
   },
   juncao: {
     backgroundColor: 'white',
@@ -309,5 +317,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginHorizontal: 30,
     marginBottom: 25,
-  }
+  },
 });

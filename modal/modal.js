@@ -9,22 +9,22 @@ export function ModalDificuldade({handleClose, modalOff}){
 
                 <View style={styles.botoesDif}>
                     <TouchableOpacity style={styles.botaoIndiv} onPress={() => handleClose(180)}>
-                    <Text>FÁCIL</Text>
+                    <Text style={styles.textBotao} >FÁCIL</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.botaoIndiv} onPress={() => handleClose(60)}>
-                    <Text>MÉDIO</Text>
+                    <Text style={styles.textBotao} >MÉDIO</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.botaoIndiv} onPress={() => handleClose(10)}>
-                    <Text>DIFÍCIL</Text>
+                    <TouchableOpacity style={styles.botaoIndiv} onPress={() => handleClose(30)}>
+                    <Text style={styles.textBotao} >DIFÍCIL</Text>
                     </TouchableOpacity>  
 
                 </View>
 
-                <View style={styles.botoesDif} >
-                        <TouchableOpacity onPress={modalOff}>
-                        <Text>Fechar</Text>
+                <View style={styles.botoesFecha} >
+                        <TouchableOpacity  onPress={modalOff}>
+                        <Text style={styles.texto} >Fechar</Text>
                         </TouchableOpacity> 
                 </View>
 
@@ -56,6 +56,20 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     botaoIndiv:{
-        marginHorizontal: 5,
+        marginHorizontal: 10,
+        padding: 5,
+    },
+    textBotao:{
+        padding: 3,
+    },
+    botoesFecha: {
+        marginRight: 6,
+        marginTop: 10,
+        backgroundColor: '#BD2A13',
+        padding: 10,
+        borderRadius: 20,
+    },
+    texto: {
+        color: 'white',
     },
 })

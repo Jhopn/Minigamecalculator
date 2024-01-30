@@ -25,25 +25,29 @@ export function FinalModal({modalFinalOff, acertosRank, nivelDificuldade}){
                    onChangeText={handleChangeText}
                    />
 
-                    <TouchableOpacity onPress={ async () => {
-                        if( texto !== ''){
-                            alert("Digite um nome!!");
-                        }
-                        let salva = texto + ' - ' + acertosRank + ' - ' + nivelDificuldade
-                        salva = salva.toString()
-                        console.log(salva)
+                    <View style={styles.botaoView} >
+                        <TouchableOpacity style={styles.botaoSalvar} onPress={ async () => {
+                                    if( texto !== ''){
+                                        alert("Digite um nome!!");
+                                    }
+                                    let salva = texto + ' - ' + acertosRank + ' - ' + nivelDificuldade
+                                    salva = salva.toString()
+                                    console.log(salva)
 
-                        const keys = await AsyncStorage.getAllKeys(); // Obtem as chaves
-                        const quantidadeItens = keys.length; // Pega a quantidade
-                        let KEY = quantidadeItens + 1 // A chave soma com a quantidade existente para não repetir
-                        KEY = KEY.toString()
+                                    const keys = await AsyncStorage.getAllKeys(); // Obtem as chaves
+                                    const quantidadeItens = keys.length; // Pega a quantidade
+                                    let KEY = quantidadeItens + 1 // A chave soma com a quantidade existente para não repetir
+                                    KEY = KEY.toString()
 
-                        await AsyncStorage.setItem(KEY, salva);
-                        modalFinalOff(false)
-                        alert("Salvo com sucesso!")
-                    }}>
-                        <Text>Salvar</Text>
-                    </TouchableOpacity>
+                                    await AsyncStorage.setItem(KEY, salva);
+                                    modalFinalOff(false)
+                                    alert("Salvo com sucesso!")
+                                }}>
+                                    <Text style={styles.textBotao}>Salvar</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    
                 </View>
 
             </View>
@@ -72,8 +76,22 @@ const styles = StyleSheet.create({
         margin: 5,
         width: 200,
         height: 40,
-        backgroundColor: '#0DE000',
+        backgroundColor: '#CFE0D4',
         textAlign: 'center',
+        borderRadius: 10,
+    },
+    botaoView:{
+        marginTop: 10,
+        marginHorizontal: 70, 
+    },
+    botaoSalvar: {
+        width: 60,
+        backgroundColor: '#0DE000',
+        borderRadius: 10,
+    },
+    textBotao:{
+        textAlign: 'center',
+        padding: 10,
         borderRadius: 10,
     },
 

@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "calculadora",
-    "slug": "calculadora",
+    "name": "MiniGameCalculator",
+    "slug": "MiniGameCalculator",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/iconJhopn.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/iconJhopn.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -35,7 +35,15 @@ export function Rank(){
             const valor = await AsyncStorage.getItem(chave);
             if (valor === item ) {
               await AsyncStorage.removeItem(chave)
+
               alert('O save selecionado foi apagado!');
+              const keys = await AsyncStorage.getAllKeys(); // Obtem as chaves
+              const quantidadeItens = keys.length; // Pega a quantidade
+              
+              for(let i = 0; i< quantidadeItens; i++){
+                  acertosString.push(await AsyncStorage.getItem(keys[i]));
+              }
+              setAcertos(acertosString)
             }
         }
     }

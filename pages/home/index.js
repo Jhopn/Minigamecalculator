@@ -120,109 +120,112 @@ export function Home() {
         <Text style={styles.acertado}>Acertos: {acertos} 🎈</Text>
       </View>
       
-      <TouchableOpacity onPress={ () => setModal(true) }>
-        <Image
-              source={require("../../assets/play.png")}
-              style={styles.botoes}
-              />
-      </TouchableOpacity>
-      <Text style={styles.digitado}>{size}</Text>
+      <View style={styles.viewPlayandINput}>
+        <TouchableOpacity onPress={ () => setModal(true) }>
+          <Image
+                source={require("../../assets/play.png")}
+                style={styles.botoes}
+                />
+        </TouchableOpacity>
+        <Text style={styles.digitado}>{size}</Text>
+      </View>
       
 
+      <View style={styles.viewBotoes}>
+        <TouchableOpacity onPress={() => numerosDigita('0')}>
+          <Image
+          source={require("../../assets/numeroZero.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => numerosDigita('0')}>
-        <Image
-        source={require("../../assets/numeroZero.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => numerosDigita('1')}>
+          <Image
+          source={require("../../assets/numeroUm.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => numerosDigita('1')}>
-        <Image
-        source={require("../../assets/numeroUm.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => numerosDigita('2')}>
+          <Image
+          source={require("../../assets/numeroDois.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => numerosDigita('2')}>
-        <Image
-        source={require("../../assets/numeroDois.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => numerosDigita('3')}>
+          <Image
+          source={require("../../assets/numeroTres.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => numerosDigita('4')}>
+          <Image
+          source={require("../../assets/numeroQuatro.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => numerosDigita('3')}>
-        <Image
-        source={require("../../assets/numeroTres.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => numerosDigita('4')}>
-        <Image
-        source={require("../../assets/numeroQuatro.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => numerosDigita('5')}>
+          <Image
+          source={require("../../assets/numeroCinco.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
 
-      
-      <TouchableOpacity onPress={() => numerosDigita('5')}>
-        <Image
-        source={require("../../assets/numeroCinco.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => numerosDigita('6')}>
+          <Image
+          source={require("../../assets/numeroSeis.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
 
-      
-      <TouchableOpacity onPress={() => numerosDigita('6')}>
-        <Image
-        source={require("../../assets/numeroSeis.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => numerosDigita('7')}>
+          <Image
+          source={require("../../assets/numeroSete.png")}
+          style={styles.botoes}
+          />
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => numerosDigita('8')}>
+          <Image
+                source={require("../../assets/numeroOito.png")}
+                style={styles.botoes}
+                />
+        </TouchableOpacity>
+              
+        <TouchableOpacity onPress={() => numerosDigita('9')}>
+          <Image
+                source={require("../../assets/numeroNove.png")}
+                style={styles.botoes}
+                />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => numerosDigita('7')}>
-        <Image
-        source={require("../../assets/numeroSete.png")}
-        style={styles.botoes}
-        />
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => numerosDigita('8')}>
-        <Image
-              source={require("../../assets/numeroOito.png")}
-              style={styles.botoes}
-              />
-      </TouchableOpacity>
-            
-      <TouchableOpacity onPress={() => numerosDigita('9')}>
-        <Image
-              source={require("../../assets/numeroNove.png")}
-              style={styles.botoes}
-              />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => numerosDigita('.')}>
+          <Image
+                source={require("../../assets/pontoBotao.png")}
+                style={styles.botoes}
+                />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => numerosDigita('.')}>
-        <Image
-              source={require("../../assets/pontoBotao.png")}
-              style={styles.botoes}
-              />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={numeroRemove}>
+          <Image
+                source={require("../../assets/botaoDelete.png")}
+                style={styles.botoes}
+                />
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={numeroRemove}>
-        <Image
-              source={require("../../assets/botaoDelete.png")}
-              style={styles.botoes}
-              />
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={resultado}>
-        <Image
-              source={require("../../assets/resultadoBotao.png")}
-              style={styles.botoes}
-              />
-      </TouchableOpacity>
-      
+        <TouchableOpacity onPress={resultado}>
+          <Image
+                source={require("../../assets/resultadoBotao.png")}
+                style={styles.botoes}
+                />
+        </TouchableOpacity>
+      </View>
+     
 
       <Modal visible={sizeModal} transparent={true} animationType='fade'>
         <ModalDificuldade handleClose={ (value) => {
@@ -266,14 +269,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row', 
     flexWrap:'wrap',
-    
   },
   botoes:{
     width: 55,
     height: 55,
     marginTop: 10,
-    marginHorizontal: 10,
+    marginHorizontal: 16,
     borderRadius: 50,
+  },
+  play: {
+    marginRight: 10,
   },
   titulo:{
     textAlign: 'center',
@@ -298,15 +303,14 @@ const styles = StyleSheet.create({
   digitado: {
     color: 'white',
     fontSize: 20,
-    marginHorizontal: 14,
+    marginHorizontal: 10,
     marginBottom: 30,
     backgroundColor: '#0D1413',
     borderRadius: 5,
     padding: 10,
-    height: 40,
+    height: 45,
     width: 120,
     textAlign: 'center',
-
   },
   juncao: {
     backgroundColor: 'white',
@@ -317,5 +321,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginHorizontal: 30,
     marginBottom: 25,
+  },
+  viewBotoes:{
+    alignItems: 'center',
+    flexDirection: 'row', 
+    flexWrap:'wrap',
+    justifyContent: 'center',
+  },
+  viewPlayandINput: {
+    flexDirection: 'row', 
+    flexWrap:'wrap',
+    justifyContent:  'space-between',
+    alignItems: 'center',
   },
 });

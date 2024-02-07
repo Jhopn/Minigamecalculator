@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MiniGameCalculator",
-    "slug": "MiniGameCalculator",
+    "name": "calculadora",
+    "slug": "calculadora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/iconJhopn.png",

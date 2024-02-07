@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
 import {ModalDificuldade} from '../../modal/modal';
 import {FinalModal} from '../../modal/final/finalModal';
-
+import * as Animatable from 'react-native-animatable'
 
 let number = '';
 let resultadoOperacao = 0
@@ -111,7 +111,12 @@ export function Home() {
 
 
   return (
-    <View style={styles.container}>
+    <Animatable.View animation={'fadeInUp'}  style={styles.container}>
+
+      <Image
+      style={styles.shapeback}
+      source={require('../../assets/ShapeHome.png')}
+      />
 
       <Text style={styles.titulo}>Acerte o máximo de operações no tempo exibido:</Text>
       <Text style={styles.tempo}>🕗{sizeTempo} segundos</Text>
@@ -253,7 +258,7 @@ export function Home() {
         <FinalModal modalFinalOff={ () => setModalFinal(false)} acertosRank={acertos} nivelDificuldade={sizeDificuldade} />
       </Modal>
 
-    </View>
+    </Animatable.View>
   );
 }
 
@@ -264,7 +269,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     paddingHorizontal: 40,
-    backgroundColor: '#8791FA',
+    backgroundColor: '#D4DBFA',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row', 
@@ -301,6 +306,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   digitado: {
+    borderColor: '#D4DBFA',
+    borderWidth: 3,
     color: 'white',
     fontSize: 20,
     marginHorizontal: 10,
@@ -313,6 +320,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   juncao: {
+    borderColor: '#D4DBFA',
+    borderWidth: 3,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 3,
@@ -333,5 +342,12 @@ const styles = StyleSheet.create({
     flexWrap:'wrap',
     justifyContent:  'space-between',
     alignItems: 'center',
+  },
+  shapeback:{
+    width: 800,
+    height: 800,
+    zIndex: 0,
+    position: 'absolute',
+    top: -100,
   },
 });

@@ -3,6 +3,7 @@ import { useState, useEffect} from 'react';
 import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Acertos} from '../../components/acertos'
+import * as Animatable from 'react-native-animatable'
 
 export function Rank(){
     const [szAcertos,setAcertos] = useState();
@@ -50,7 +51,7 @@ export function Rank(){
 
     return(
 
-        <View>
+        <Animatable.View animation={'fadeInUp'}  >
             <View style={estilos.container}>
                 <Text style={estilos.main}>Nome 🎮</Text>
                 <Text style={estilos.main}>Acertos 🎈</Text>
@@ -65,7 +66,7 @@ export function Rank(){
                 <Acertos  data={{nome: item}} remove={() => deletaRank(item)} />
               )}
             /> 
-        </View>
+        </Animatable.View>
 
     );
 }
@@ -79,6 +80,8 @@ const estilos = StyleSheet.create({
         backgroundColor: '#8791FA',
         height: 40,
         borderRadius: 10,
+        borderColor: '#D4DBFA',
+        borderWidth: 3,
     },
     main:{
         marginHorizontal: 10,
@@ -92,6 +95,8 @@ const estilos = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 20, 
         padding: 15,
+        borderColor: '#D4DBFA',
+        borderWidth: 3,
     }
     
 

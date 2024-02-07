@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     textBotao:{
+        fontWeight: 'bold',
         padding: 3,
     },
     botoesFecha: {

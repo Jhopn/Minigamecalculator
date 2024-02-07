@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home } from './pages/home/index';
-import { Rank } from './pages/rank/rank';
+import { Home } from '../pages/home/index';
+import { Rank } from '../pages/rank/rank';
 import { FontAwesome6 } from '@expo/vector-icons';
+
 const Tab = createBottomTabNavigator();
 
 export function Routes(){

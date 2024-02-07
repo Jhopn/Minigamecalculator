@@ -1,30 +1,36 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable'
+import { app } from '../../services/firebaseConfig'
+import { getAuth,createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from 'react';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '../../services/storage';
 
 export function Registro(){
+    const auth = getAuth(app);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [
-      createUserWithEmailAndPassword,
-      user,
-      loading,
-      error,
-    ] = useCreateUserWithEmailAndPassword(auth);
+    const [error, setError] = useState('');
+    const navigation = useNavigation();
+
 
     function handleSingOut(){
-        createUserWithEmailAndPassword(email, password);
-        if(loading){
-            console.log(user)
-        } else {
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed up 
+            const user = userCredential.user;
+            // ...
             navigation.navigate('Inicio');
-        }
-    }
 
-    const navigation = useNavigation();
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+            console.log(email, password)
+            setError(error.message)
+            console.log(error)
+        });
+    }
 
     const trocaPaginaLogin = () => {
         navigation.navigate('Login');
@@ -47,19 +53,26 @@ export function Registro(){
                 <TextInput
                 style= {estilo.input}
                 placeholder='Digite seu email...'
+                value={email}
+                onChangeText={text => setEmail(text)} 
                 />
                 <Text style={estilo.inputText} >Senha</Text>
                 <TextInput
                 style= {estilo.input}
                 placeholder='Digite seu senha...'
+                value={password}
+                onChangeText={text => setPassword(text)} 
+                secureTextEntry
                 />
-                <Text style={estilo.inputText}>Senha</Text>
+                {/* <Text style={estilo.inputText}>Senha</Text>
                 <TextInput
                 style= {estilo.input}
                 placeholder='Digite novamente sua senha...'
-                />
+                /> */}
 
             </View>
+
+            <Text>{error}</Text>
 
             <TouchableOpacity onPress={trocaPaginaLogin}>
                 <Text style= {estilo.cadastrese} >Já cadastrado? Faça Login!</Text>

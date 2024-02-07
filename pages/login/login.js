@@ -3,28 +3,37 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '../../services/firebaseConfig';
+import { app } from '../../services/firebaseConfig';
+import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
 
 export function Login(){
+    const auth = getAuth(app);
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [
-        signInWithEmailAndPassword,
-        user,
-        loading,
-        error,
-    ] = useSignInWithEmailAndPassword(auth);
+    const [error, setError] = useState('');
+
 
     function handleSingIn(){
-        useSignInWithEmailAndPassword(email, password)
-        navigation.navigate('Inicio');
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            // ...
+            navigation.navigate('Inicio');
+
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setError(error.message)
+            console.log(error)
+        });
     }
-    const navigation = useNavigation();
 
     const trocaPaginaCad = () => {
         navigation.navigate('Registro');
-    };
+    }
 
 
     return (
@@ -45,14 +54,19 @@ export function Login(){
                 <TextInput
                 style= {estilo.input}
                 placeholder='Digite seu email...'
+                onChangeText={text => setEmail(text)} 
                 />
                 <Text style={estilo.inputText}>Senha</Text>
                 <TextInput
                 style= {estilo.input}
                 placeholder='Digite sua senha...'
+                onChangeText={text => setPassword(text)} 
+                secureTextEntry
                 />
 
             </View>
+
+            <Text>{error}</Text>
 
             <TouchableOpacity 
             onPress={trocaPaginaCad}>
@@ -60,7 +74,7 @@ export function Login(){
             </TouchableOpacity>
 
 
-            <TouchableOpacity onLongPress={handleSingIn} style={estilo.botaoLogin}>
+            <TouchableOpacity onPress={handleSingIn} style={estilo.botaoLogin}>
                 <Text style={estilo.textBotao}>LOGIN</Text>
             </TouchableOpacity>
 

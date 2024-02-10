@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, StatusBar } from 'react-native';
 import {ModalDificuldade} from '../../modal/modal';
 import {FinalModal} from '../../modal/final/finalModal';
 import * as Animatable from 'react-native-animatable'
+import { Audio } from 'expo-av';
 
 let number = '';
 let resultadoOperacao = 0
@@ -84,11 +85,13 @@ export function Home() {
 
   function resultado(){
     if(number == resultadoOperacao){
+      playSoundCerto();
       setAcertos(++acertosQuant)
       sorteaOperacao()
       setSize('')
       number = ''
     } else{
+      playSoundErrado();
       console.log('ERRADO')
     }
 
@@ -106,9 +109,30 @@ export function Home() {
       }
     }, 1000);
   }
+
   
+      // Carregar e reproduzir o arquivo de áudio
+      const playSoundCerto = async () => {
+        await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
 
+        const { sound: playbackObject } = await Audio.Sound.createAsync(
+          { uri: require('../../assets/souds/certo.mp3') },
+          { shouldPlay: true }
+        );
+      };
 
+      // const playSoundErrado = async () => {
+      //   const { sound } = await Audio.Sound.createAsync(
+      //     require('../../assets/souds/errado.mp3')
+      //   );
+      //   await sound.playAsync();
+      // };
+  
+      // return () => {
+      //   // Limpar recursos ao desmontar o componente
+      //   Audio.Sound.unloadAsync();
+      // };
+  
 
   return (
     <Animatable.View animation={'fadeInUp'}  style={styles.container}>
@@ -267,7 +291,6 @@ export function Home() {
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    marginTop: 20,
     paddingHorizontal: 40,
     backgroundColor: '#D4DBFA',
     justifyContent: 'center',
@@ -287,7 +310,7 @@ const styles = StyleSheet.create({
   },
   titulo:{
     textAlign: 'center',
-    marginTop: 25,
+    marginTop: 40,
     fontSize: 15,
     fontWeight: 'bold',
     marginHorizontal: 25,
@@ -329,7 +352,7 @@ const styles = StyleSheet.create({
   tempo:{
     fontSize: 20,
     marginHorizontal: 30,
-    marginBottom: 25,
+    marginBottom: 5,
   },
   viewBotoes:{
     alignItems: 'center',

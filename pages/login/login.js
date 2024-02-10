@@ -1,10 +1,10 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable'
 import { app } from '../../services/firebaseConfig';
-import { getAuth,signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 export function Login(){
     const auth = getAuth(app);
@@ -13,13 +13,20 @@ export function Login(){
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          if (user) {
+            navigation.navigate('Inicio'); 
+          }
+        });
+    
+        return unsubscribe; 
+      }, []);
+      
     function handleSingIn(){
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
             const user = userCredential.user;
-            // ...
             navigation.navigate('Inicio');
 
         })
@@ -30,6 +37,7 @@ export function Login(){
             console.log(error)
         });
     }
+
 
     const trocaPaginaCad = () => {
         navigation.navigate('Registro');

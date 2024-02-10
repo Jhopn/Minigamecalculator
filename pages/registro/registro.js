@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable'
 import { app } from '../../services/firebaseConfig'
-import { getAuth,createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth,createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useState } from 'react';
 
 export function Registro(){
@@ -16,21 +16,29 @@ export function Registro(){
     function handleSingOut(){
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed up 
             const user = userCredential.user;
-            // ...
             navigation.navigate('Inicio');
 
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            // ..
             console.log(email, password)
             setError(error.message)
             console.log(error)
         });
     }
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          if (user) {
+            navigation.navigate('Inicio'); 
+          }
+        });
+    
+        return unsubscribe;
+      }, []);
+
 
     const trocaPaginaLogin = () => {
         navigation.navigate('Login');

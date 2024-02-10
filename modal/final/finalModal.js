@@ -1,11 +1,12 @@
 import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
+import { db } from '../../services/firebaseConfig';
+import { addDoc, collection } from "firebase/firestore"; 
 
 export function FinalModal({modalFinalOff, acertosRank, nivelDificuldade}){
         const [texto, setTexto] = useState('');
 
-      
         const handleChangeText = (novoTexto) => {
           setTexto(novoTexto);
         };
@@ -27,21 +28,20 @@ export function FinalModal({modalFinalOff, acertosRank, nivelDificuldade}){
 
                     <View style={styles.botaoView} >
                         <TouchableOpacity style={styles.botaoSalvar} onPress={ async () => {
-                                    if( texto !== ''){
-                                        alert("Digite um nome!!");
-                                    }
-                                    let salva = texto + ' - ' + acertosRank + ' - ' + nivelDificuldade
-                                    salva = salva.toString()
-                                    console.log(salva)
+                                    try {
+                                        const docRef = await addDoc(collection(db, "rank"), {
+                                          nome: texto,
+                                          acertos: acertosRank,
+                                          dificuldade: nivelDificuldade
+                                        });
 
-                                    const keys = await AsyncStorage.getAllKeys(); // Obtem as chaves
-                                    const quantidadeItens = keys.length; // Pega a quantidade
-                                    let KEY = quantidadeItens + 1 // A chave soma com a quantidade existente para não repetir
-                                    KEY = KEY.toString()
+                                        console.log("Document written with ID: ", docRef.id);
+                                        modalFinalOff(false)
+                                        alert("Salvo com sucesso!")
 
-                                    await AsyncStorage.setItem(KEY, salva);
-                                    modalFinalOff(false)
-                                    alert("Salvo com sucesso!")
+                                      } catch (e) {
+                                        console.error("Error adding document: ", e);
+                                      }
                                 }}>
                                     <Text style={styles.textBotao}>Salvar</Text>
                         </TouchableOpacity>

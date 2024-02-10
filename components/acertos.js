@@ -1,10 +1,10 @@
 import React from "react";
-import {Text, Pressable, StyleSheet} from 'react-native'
+import { Text, Pressable, StyleSheet } from 'react-native';
 
-export function Acertos({data, remove}){
-        return <Pressable style={estilos.pontuacao} onLongPress={remove}><Text style={estilos.txt} >{data.nome}</Text></Pressable>;
-
+export function Acertos({data}){
+    return <Pressable style={estilos.pontuacao}><Text style={estilos.txt} >{data.nome}</Text></Pressable>;
 }
+
 const estilos = StyleSheet.create({
     pontuacao: {
         margin: 10,
@@ -13,8 +13,9 @@ const estilos = StyleSheet.create({
         justifyContent: 'center',
     },
     txt:{
-        fontSize: 15,
+        fontSize: 17,
         color: 'white',
         fontWeight: 'bold',
+        paddingVertical: 3,
     }
 })

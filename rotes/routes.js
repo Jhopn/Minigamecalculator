@@ -26,6 +26,9 @@ export function Routes(){
             name='Rank'
             component={Rank}
             options={{
+                headerStyle: {
+                    backgroundColor: '#8791FA',
+                  },
                 tabBarIcon: ({focused, size, color}) =>{
                     if(focused){
                         return <FontAwesome6 name="ranking-star" size={size} color={color} />

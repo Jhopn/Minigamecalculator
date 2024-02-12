@@ -1,30 +1,31 @@
-import { Text, View, StyleSheet, FlatList, StatusBar, Image  } from "react-native";
+import { Text, View, StyleSheet, FlatList, StatusBar, Image, Modal  } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useState, useEffect} from 'react';
 import { useIsFocused } from "@react-navigation/native";
 import {Acertos} from '../../components/acertos'
 import * as Animatable from 'react-native-animatable'
 import { db } from "../../services/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore"; 
-
-
+import { collection, getDocs } from "firebase/firestore";
+import { Loading } from "../../modal/carregando";
 
 export function Rank(){
     const [szAcertos,setAcertos] = useState();
     const focused = useIsFocused();
     const acertosString = []
     const [selectedValue, setSelectedValue] = useState('');
+    const [modalCarrega,setmodalCarrega] = useState(null);
+
 
     useEffect(
         () =>{
             async function carregaRank(){
 
                 try {
+                    setmodalCarrega(true)
+    
                     const querySnapshot = await getDocs(collection(db, "rank"));
                     querySnapshot.forEach((doc) => {
-                        // Acessa os dados do documento usando a função data()
                         const data = doc.data();
-                        // console.log(data)
 
                         const array = Object.values(data)
                         let concatena = ''
@@ -52,6 +53,8 @@ export function Rank(){
                                 concatena = concatena.toUpperCase();
                                 acertosString.push(concatena);
                                 concatenaConta = 0
+                            } else if(acertosString.length >= 20){
+                                return;
                             }
                         });
 
@@ -66,13 +69,13 @@ export function Rank(){
                             }
                         });
 
-                        // console.log(acertosString);
+        
                         setAcertos(acertosString)
-            
+                        setmodalCarrega(false)
                     });
                 } catch (error) {
                     console.error('Erro ao carregar o ranking:', error);
-                }
+                } 
             }
             carregaRank();
 
@@ -80,14 +83,13 @@ export function Rank(){
     )
 
     async function rank(itemValue){
+        setmodalCarrega(true)
         setSelectedValue(itemValue)
         const select = itemValue
         
         const querySnapshot = await getDocs(collection(db, "rank"));
         querySnapshot.forEach((doc) => {
-            // Acessa os dados do documento usando a função data()
             const data = doc.data();
-            // console.log(data)
 
             const array = Object.values(data)
             let concatena = ''
@@ -117,6 +119,8 @@ export function Rank(){
                         acertosString.push(concatena);
                     }
                     concatenaConta = 0
+                } else if(acertosString.length >= 20){
+                    return;
                 }
             });
 
@@ -130,14 +134,15 @@ export function Rank(){
                     return 0; 
                 }
             });
-          
+
             setAcertos(acertosString)
+            setmodalCarrega(false)
         })
     }
 
-    return(
 
-        <Animatable.View animation={'fadeInUp'} style={estilos.total} >
+    return(
+        <Animatable.View animation={'fadeInUp'} delay={300} style={estilos.total} >
             <StatusBar backgroundColor="#BFCCF5" barStyle="light-content" />
 
             <View style={estilos.container}>
@@ -165,7 +170,7 @@ export function Rank(){
                     source={require('../../assets/ShapeRank.png')}
                     />
 
-            <View style={estilos.imgRank}>
+            <Animatable.View delay={300} animation={'fadeInUp'} style={estilos.imgRank}>
                     <Image
                     style={estilos.img}
                     source={require('../../assets/ShapeRank1.png')}
@@ -178,7 +183,7 @@ export function Rank(){
                     style={estilos.img}
                     source={require('../../assets/ShapeRank3.png')}
                     />
-            </View>
+            </Animatable.View>
 
 
             <View style={estilos.content} >
@@ -191,7 +196,12 @@ export function Rank(){
                 )}
                 />
             </View>
+
+            <Modal  visible={modalCarrega} transparent={true} animationType='fade'>
+                <Loading/>
+            </Modal>
         
+
         </Animatable.View>
 
     );
@@ -227,6 +237,7 @@ const estilos = StyleSheet.create({
         marginHorizontal: 20, 
         borderColor: '#D4DBFA',
         borderWidth: 3,
+        marginBottom: 220,
     },
     meio:{
         backgroundColor: '#D4DBFA',
@@ -251,7 +262,7 @@ const estilos = StyleSheet.create({
         flexDirection: 'column',
         marginLeft: 50,
         zIndex: 999,
-        top: 200,
+        top: 210,
         borderColor: '#8791FA',
         borderWidth: 3,
     },
@@ -263,6 +274,7 @@ const estilos = StyleSheet.create({
     imgBackgroun:{
         position: 'absolute',
         top: -80,
+        right: 40,
         width: 900,
         height: 900,
         zIndex: -1,

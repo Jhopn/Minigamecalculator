@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, StatusBar } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
 import {ModalDificuldade} from '../../modal/modal';
 import {FinalModal} from '../../modal/final/finalModal';
 import * as Animatable from 'react-native-animatable'
 import { Audio } from 'expo-av';
+import { Tutorial } from '../../modal/tutorial/tutor';
+import { app } from '../../services/firebaseConfig';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 let number = '';
 let resultadoOperacao = 0
@@ -18,6 +21,20 @@ export function Home() {
   const [sizeTempo,setTempo] = useState(null)
   const [sizeModalFinal,setModalFinal] = useState(false)
   const [sizeDificuldade,setDificuldade] = useState(null)
+  const [sound, setSound] = useState();
+  const auth = getAuth(app);
+  const [tutorial, setTutoria] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setTutoria(true)
+      } else{
+        setTutoria(true)
+      }
+    });
+    return unsubscribe; 
+  }, []);
 
   let tempoPartida = {sizeTempo}
   const isFloat = (numero) => Number(numero) === numero && numero % 1 !== 0;
@@ -91,7 +108,7 @@ export function Home() {
       setSize('')
       number = ''
     } else{
-      playSoundErrado();
+      playSoundErrado()
       console.log('ERRADO')
     }
 
@@ -110,29 +127,29 @@ export function Home() {
     }, 1000);
   }
 
-  
-      // Carregar e reproduzir o arquivo de áudio
-      const playSoundCerto = async () => {
-        await Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+  async function playSoundCerto(){
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync( require('../../assets/souds/certo.mp3'));
+    setSound(sound);
 
-        const { sound: playbackObject } = await Audio.Sound.createAsync(
-          { uri: require('../../assets/souds/certo.mp3') },
-          { shouldPlay: true }
-        );
-      };
+    await sound.playAsync();
+  }
 
-      // const playSoundErrado = async () => {
-      //   const { sound } = await Audio.Sound.createAsync(
-      //     require('../../assets/souds/errado.mp3')
-      //   );
-      //   await sound.playAsync();
-      // };
-  
-      // return () => {
-      //   // Limpar recursos ao desmontar o componente
-      //   Audio.Sound.unloadAsync();
-      // };
-  
+  async function playSoundErrado(){
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync( require('../../assets/souds/errado.mp3'));
+    setSound(sound);
+
+    await sound.playAsync();
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   return (
     <Animatable.View animation={'fadeInUp'}  style={styles.container}>
@@ -280,6 +297,10 @@ export function Home() {
 
       <Modal visible={sizeModalFinal} transparent={true} animationType='fade' >
         <FinalModal modalFinalOff={ () => setModalFinal(false)} acertosRank={acertos} nivelDificuldade={sizeDificuldade} />
+      </Modal>
+
+      <Modal visible={tutorial} animationType='fade' >
+        <Tutorial/>
       </Modal>
 
     </Animatable.View>

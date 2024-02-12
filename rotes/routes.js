@@ -29,6 +29,9 @@ export function Routes(){
                 headerStyle: {
                     backgroundColor: '#8791FA',
                   },
+                headerTitleStyle: {
+                    color: 'white', // Define a cor do texto do cabeçalho como branco
+                 },
                 tabBarIcon: ({focused, size, color}) =>{
                     if(focused){
                         return <FontAwesome6 name="ranking-star" size={size} color={color} />

@@ -1,11 +1,11 @@
-import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {View, Text, StyleSheet, TouchableOpacity, TextInput, Alert} from 'react-native'
 import React, { useState } from 'react';
 import { db } from '../../services/firebaseConfig';
 import { addDoc, collection } from "firebase/firestore"; 
 
 export function FinalModal({modalFinalOff, acertosRank, nivelDificuldade}){
         const [texto, setTexto] = useState('');
+        const [textoAlert, setTextoAlert] = useState("");
 
         const handleChangeText = (novoTexto) => {
           setTexto(novoTexto);
@@ -18,6 +18,7 @@ export function FinalModal({modalFinalOff, acertosRank, nivelDificuldade}){
                 <Text>O tempo acabouuuu!!!</Text>
                 <Text>Sua quantidade de acertos foi: {acertosRank}🎈</Text>
 
+                <Text style={styles.txt}>Digite um nome para salvar sua pontuação!</Text>
                 <View>
                    <TextInput 
                    style={styles.input}
@@ -25,28 +26,41 @@ export function FinalModal({modalFinalOff, acertosRank, nivelDificuldade}){
                    value={texto}
                    onChangeText={handleChangeText}
                    />
+                
+                <Text style={styles.txtAlert}>{textoAlert}</Text>
 
                     <View style={styles.botaoView} >
+                        <TouchableOpacity style={styles.botoesFecha} onPress={ ()=> {modalFinalOff(false)}}>
+                                    <Text style={styles.textBotaoFecha}>Não Salvar</Text>
+                        </TouchableOpacity>
+
                         <TouchableOpacity style={styles.botaoSalvar} onPress={ async () => {
-                                    try {
-                                        const docRef = await addDoc(collection(db, "rank"), {
-                                          nome: texto,
-                                          acertos: acertosRank,
-                                          dificuldade: nivelDificuldade
-                                        });
+                            if( texto !== '' && texto !== " " && texto !== null){
+                                try {
+                                    const docRef = await addDoc(collection(db, "rank"), {
+                                      nome: texto,
+                                      acertos: acertosRank,
+                                      dificuldade: nivelDificuldade
+                                    });
 
-                                        console.log("Document written with ID: ", docRef.id);
-                                        modalFinalOff(false)
-                                        alert("Salvo com sucesso!")
+                                    console.log("Document written with ID: ", docRef.id);
+                                    modalFinalOff(false)
+                                    alert("Salvo com sucesso!")
 
-                                      } catch (e) {
-                                        console.error("Error adding document: ", e);
-                                      }
+                                  } catch (e) {
+                                    console.error("Error adding document: ", e);
+                                  }
+
+                            } else{
+                                setTextoAlert('ESCREVA UM NOME!!')
+                            }
                                 }}>
                                     <Text style={styles.textBotao}>Salvar</Text>
                         </TouchableOpacity>
 
+                   
                     </View>
+
                     
                 </View>
 
@@ -81,8 +95,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     botaoView:{
+        flexDirection: 'row',
+        justifyContent: 'center',
         marginTop: 10,
-        marginHorizontal: 70, 
+        
     },
     botaoSalvar: {
         width: 60,
@@ -92,7 +108,25 @@ const styles = StyleSheet.create({
     textBotao:{
         textAlign: 'center',
         padding: 10,
-        borderRadius: 10,
     },
+    botoesFecha: {
+        backgroundColor: '#BD2A13',
+        borderRadius: 10,
+        marginRight: 10,
+    },
+    textBotaoFecha:{
+        textAlign: 'center',
+        padding: 10,
+        color: 'white',
+    },
+    txt:{
+        fontWeight: 'bold',
+        margin: 10,
+    },
+    txtAlert:{
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: 'red',
+    }
 
 })

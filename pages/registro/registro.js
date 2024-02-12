@@ -72,15 +72,10 @@ export function Registro(){
                 onChangeText={text => setPassword(text)} 
                 secureTextEntry
                 />
-                {/* <Text style={estilo.inputText}>Senha</Text>
-                <TextInput
-                style= {estilo.input}
-                placeholder='Digite novamente sua senha...'
-                /> */}
 
             </View>
 
-            <Text>{error}</Text>
+            <Text style={estilo.txtAlert}>{error}</Text>
 
             <TouchableOpacity onPress={trocaPaginaLogin}>
                 <Text style= {estilo.cadastrese} >Já cadastrado? Faça Login!</Text>
@@ -144,6 +139,11 @@ const estilo = StyleSheet.create({
     },
     cadastrese:{
         marginTop: 25,
+    },
+    txtAlert:{
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: 'red',
     }
 
 

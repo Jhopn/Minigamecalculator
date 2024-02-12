@@ -17,6 +17,7 @@ export function Login(){
         const unsubscribe = auth.onAuthStateChanged((user) => {
           if (user) {
             navigation.navigate('Inicio'); 
+          } else{
           }
         });
     
@@ -74,7 +75,7 @@ export function Login(){
 
             </View>
 
-            <Text>{error}</Text>
+            <Text style={estilo.txtAlert}>{error}</Text>
 
             <TouchableOpacity 
             onPress={trocaPaginaCad}>
@@ -138,7 +139,10 @@ const estilo = StyleSheet.create({
     },
     cadastrese:{
         marginTop: 25,
+    },
+    txtAlert:{
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: 'red',
     }
-
-
 });

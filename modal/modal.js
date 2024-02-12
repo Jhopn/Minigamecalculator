@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 24,
         borderRadius: 15,
-
     },
     botoesDif:{
         flexDirection: 'row',

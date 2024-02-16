@@ -17,8 +17,7 @@ export function Login(){
         const unsubscribe = auth.onAuthStateChanged((user) => {
           if (user) {
             navigation.navigate('Inicio'); 
-          } else{
-          }
+          } 
         });
     
         return unsubscribe; 

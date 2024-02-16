@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, StatusBar } from 'react-native';
 import {ModalDificuldade} from '../../modal/modal';
 import {FinalModal} from '../../modal/final/finalModal';
 import * as Animatable from 'react-native-animatable'
 import { Audio } from 'expo-av';
-import { Tutorial } from '../../modal/tutorial/tutor';
+import { Carousel } from '../../modal/tutorial/tutor';
 import { app } from '../../services/firebaseConfig';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
@@ -23,14 +23,14 @@ export function Home() {
   const [sizeDificuldade,setDificuldade] = useState(null)
   const [sound, setSound] = useState();
   const auth = getAuth(app);
-  const [tutorial, setTutoria] = useState(null);
+  const [tutorial, setTutorial] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setTutoria(true)
+        setTutorial(false)
       } else{
-        setTutoria(true)
+        setTutorial(true)
       }
     });
     return unsubscribe; 
@@ -159,6 +159,15 @@ export function Home() {
       source={require('../../assets/ShapeHome.png')}
       />
 
+      <TouchableOpacity style={styles.info} onPress={() => setTutorial(true)}>
+                <Text style={{
+                  color: 'black',
+                  textAlign: 'center',
+                  fontSize: 20,
+              }}>?</Text>
+      </TouchableOpacity>
+      
+      <StatusBar backgroundColor="black" barStyle="light-content" />
       <Text style={styles.titulo}>Acerte o máximo de operações no tempo exibido:</Text>
       <Text style={styles.tempo}>🕗{sizeTempo} segundos</Text>
       <View style={styles.juncao}>
@@ -299,8 +308,22 @@ export function Home() {
         <FinalModal modalFinalOff={ () => setModalFinal(false)} acertosRank={acertos} nivelDificuldade={sizeDificuldade} />
       </Modal>
 
-      <Modal visible={tutorial} animationType='fade' >
-        <Tutorial/>
+
+
+      <Modal visible={tutorial} animationType='fade'> 
+      <StatusBar backgroundColor="black" barStyle="light-content" />
+          <View style={styles.modal}>
+            <Text style={styles.tituloModal}>TUTORIAL</Text>
+            <Carousel/>
+            <TouchableOpacity style={styles.modalButton} onPress={() => setTutorial(false)}>
+                <Text style={{color: 'white', textAlign: 'center',}}>Fechar</Text>
+            </TouchableOpacity>
+
+            <Image
+            style={styles.shapeModal}
+            source={require('../../assets/ShapeTutorial.png')}
+            />
+          </View>
       </Modal>
 
     </Animatable.View>
@@ -393,5 +416,49 @@ const styles = StyleSheet.create({
     zIndex: 0,
     position: 'absolute',
     top: -100,
+  },
+  screenTour:{
+    flex: 1, 
+    padding: 50,
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: '#D4DBFA'
+  },
+  modalButton: {
+    width: 75,
+    height: 55,
+    marginBottom: 10,
+    marginHorizontal: '40%',
+    padding: 17,
+    borderRadius: 10,
+    backgroundColor: '#8791FA',
+  },
+  tituloModal:{
+    textAlign: 'center',
+    marginTop: 40,
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginHorizontal: 25,
+    color: 'white'
+  },
+  shapeModal:{
+    width: 700,
+    height: 670,
+    zIndex: -10,
+    position: 'absolute',
+    top: -200,
+    left: -150,
+  },
+  info: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 30,
+    height: 30,
+    borderWidth: 3,
+    borderColor: 'white',
+    borderRadius: 300,
+    backgroundColor: '#8791FA',
   },
 });

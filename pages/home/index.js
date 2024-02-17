@@ -80,8 +80,6 @@ export function Home() {
     }
     operacaoComValores = valor1 + ' ' + operacaoSorteada + ' '  + valor2
     setSortea(operacaoComValores)
-    console.log(typeof resultadoOperacao)
-    console.log(resultadoOperacao)
   }
 
   if(resultadoOperacao === 0){
@@ -109,7 +107,6 @@ export function Home() {
       number = ''
     } else{
       playSoundErrado()
-      console.log('ERRADO')
     }
 
   }

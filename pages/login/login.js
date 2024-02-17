@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable'
 import { app } from '../../services/firebaseConfig';
@@ -39,7 +39,7 @@ export function Login(){
     }
 
 
-    const trocaPaginaCad = () => {
+    function trocaPaginaCad(){
         navigation.navigate('Registro');
     }
 
@@ -47,6 +47,9 @@ export function Login(){
     return (
         
         <Animatable.View animation={'fadeInUp'} style = {estilo.container}>
+
+            <StatusBar backgroundColor="black" barStyle="light-content" />
+
             <Image
             style={estilo.shape}
             source={require("../../assets/ShapeLogin.png")}

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable'
 import { app } from '../../services/firebaseConfig'
@@ -29,23 +29,15 @@ export function Registro(){
         });
     }
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-          if (user) {
-            navigation.navigate('Inicio'); 
-          }
-        });
-    
-        return unsubscribe;
-      }, []);
-
-
-    const trocaPaginaLogin = () => {
+    function trocaPaginaLogin(){
         navigation.navigate('Login');
       };
 
     return (
         <Animatable.View animation={'fadeInUp'} style = {estilo.container}>
+
+            <StatusBar backgroundColor="black" barStyle="light-content" />
+
             <Image
             style={estilo.shape}
             source={require("../../assets/ShapeLogin.png")}
@@ -82,7 +74,6 @@ export function Registro(){
             </TouchableOpacity>
 
       
-
             <TouchableOpacity onPress={handleSingOut} style={estilo.botaoLogin}>
                 <Text style={estilo.textBotao}>CADASTRO</Text>
             </TouchableOpacity>

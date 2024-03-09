@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "calculadora",
-    "slug": "calculadora",
+    "name": "Minigamecalculator",
+    "slug": "Minigamecalculator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/iconJhopn.png",
@@ -34,15 +34,10 @@
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
       ],
-      "package": "com.jhoao.calculadora"
+      "package": "com.jhoao.minigamecalculator"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "15db1772-f5c5-41d6-b7ae-41626cfe6dd5"
-      }
     }
   }
 }
